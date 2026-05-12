@@ -9,23 +9,22 @@ class FrontendInterface {
 
     public function __construct() {
         // 1. Logic Hook (The "When")
-        //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
+        add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
     }
 
     public function inject_share_intent( $content ) {
         $enabled_types = get_option( 'tradesw_selected_posttype', array( 'post' ) );
 
-        // If we aren't on the right post type, return content immediately and EXIT.
-        if ( ! is_singular( $enabled_types ) || ! is_main_query() || ! in_the_loop() ) {
+        if ( ! is_singular( $enabled_types ) || ! is_main_query() ) {
             return $content;
         }
 
-        // Capture the template
+        // TEST: If you see "BUFFER TEST" but no links, the template path is wrong.
         ob_start();
+        echo '<strong>BUFFER TEST</strong>'; 
         $this->render_frontend_page();
         $share_html = ob_get_clean();
 
-        // Return content + the captured template
         return $content . $share_html;
         }
 
@@ -35,7 +34,14 @@ class FrontendInterface {
     public function render_frontend_page() {
         $template_path = TSW_SHARE_INTENT_PLUGIN_DIR . 'templates/frontend-page.php';
         if ( file_exists( $template_path ) ) {
+            // Explicitly define variables so the template can see them
+            $post_url   = get_permalink();
+            $post_title = get_the_title();
+            
             include $template_path;
+        } else {
+            // Debugging: If you see this in your page source, the path is wrong
+            echo 'oops';
         }
     }
 }
