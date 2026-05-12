@@ -1,4 +1,4 @@
-![Plugin banner](images/banner-1544x500-tradesw-visit-counter.png)
+![Plugin banner](assets/banner-1544x500.png)
 
 # Trades Share Intent
 Adds social share buttons to bottom of posts with selectable post types.
