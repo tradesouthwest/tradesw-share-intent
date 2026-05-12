@@ -104,4 +104,4 @@ class Plugin {
         // No action needed on deactivation for this version.
         // We will not drop the table to preserve user data.
     }
-}
+} 
