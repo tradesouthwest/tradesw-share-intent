@@ -2,7 +2,7 @@
 namespace Trades_Share_Intent\Core;
 
 use Trades_Share_Intent\Admin\AdminInterface;
-//use Trades_Share_Intent\Public\PublicInterface;
+use Trades_Share_Intent\Frontend\FrontendInterface;
 //use Trades_Share_Intent\Utils\PluginUtils;
 
 // Exit if accessed directly.
@@ -61,7 +61,7 @@ class Plugin {
     private function __construct() {
         // Initialize core components.
         //$this->utils_manager     = new UtilsManager();
-        //$this->public_interface = new PublicInterface();
+        $this->public_interface = new FrontendInterface();
         $this->admin_interface = new AdminInterface();
 
         // Register hooks.

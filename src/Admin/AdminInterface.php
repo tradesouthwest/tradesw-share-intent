@@ -1,36 +1,37 @@
 <?php
 namespace Trades_Share_Intent\Admin;
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use Trades_Share_Intent\Core\Plugin;
-
-/**
- * Handles the admin interface and AJAX requests.
- */
 class AdminInterface {
 
-    /**
-     * The available posttypes.
-     *
-     * @var array
-     */
-    private $posttypes;
+    public function __construct() {
+        // Hooks for the Settings API
+        add_action( 'admin_init', array( $this, 'register_plugin_settings' ) );
+    }
 
     /**
-     * AdminInterface constructor.
-     * @defaults post, attachment
-     * @add 'wp_template_part' or 'page' or 'CPT'
-     * @since 1.0
-     * @return array
+     * Register the setting in the options table.
      */
-    public function __construct() {
-        $this->posttypes = array(
-            'post', 'attachment'
+    public function register_plugin_settings() {
+        register_setting( 
+            'tradesw_share_intent_group', 
+            'tradesw_selected_posttype', 
+            array(
+                'type'              => 'array',
+                'sanitize_callback' => array( $this, 'sanitize_post_types' ),
+                'default'           => array( 'post' ),
+            )
         );
+    }
+
+    /**
+     * Ensure we only save an array of strings.
+     */
+    public function sanitize_post_types( $input ) {
+        return is_array( $input ) ? array_map( 'sanitize_text_field', $input ) : array( 'post' );
     }
 
     /**
@@ -39,7 +40,7 @@ class AdminInterface {
     public function add_menu_page() {
         add_management_page(
             esc_html__( 'Trades Share Intent', 'tradesw-share-intent' ),
-            esc_html__( 'Trades ShareIntent', 'tradesw-share-intent' ),
+            esc_html__( 'Trades Share Intent', 'tradesw-share-intent' ),
             'manage_options',
             TSW_SHARE_INTENT_SLUG,
             array( $this, 'render_admin_page' )
@@ -47,108 +48,71 @@ class AdminInterface {
     }
 
     /**
-     * Enqueue scripts and styles.
-     *
-     * @param string $hook The current admin page hook.
+     * Dropdown for the admin page.
      */
-    public function enqueue_assets( $hook ) {
-        if ( 'tools_page_' . TSW_SHARE_INTENT_SLUG !== $hook ) {
+    public function render_post_select() {
+        // Get all public post types (Posts, Pages, and CPTs)
+        $post_types = get_post_types( array( 'public' => true ), 'objects' );
+        
+        // Retrieve the saved array. Default to 'post' if empty.
+        $selected_values = get_option( 'tradesw_selected_posttype', array( 'post' ) );
+        
+        // Ensure it's an array for in_array() checks
+        if ( ! is_array( $selected_values ) ) {
+            $selected_values = array( $selected_values );
+        }
+
+        ?>
+        <select class="widefat" name="tradesw_selected_posttype[]" id="tradesw_selected_posttype" multiple style="height: 120px;">
+            <?php foreach ( $post_types as $post_type_obj ) : ?>
+                <option value="<?php echo esc_attr( $post_type_obj->name ); ?>" 
+                    <?php echo in_array( $post_type_obj->name, $selected_values ) ? 'selected' : ''; ?>>
+                    <?php echo esc_html( $post_type_obj->labels->name ); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <p class="description">
+            <?php esc_html_e( 'Cmd/Ctrl + Click to select multiple types.', 'tradesw-share-intent' ); ?>
+        </p>
+        <?php
+    }
+
+    /**
+     * Display the Active Selection
+     * Shows the user what is currently saved in the database.
+     */
+    public function render_active_post_types() {
+        $selected_values = get_option( 'tradesw_selected_posttype', array( 'post' ) );
+        
+        if ( empty( $selected_values ) ) {
+            echo '<em>' . esc_html__( 'No post types selected.', 'tradesw-share-intent' ) . '</em>';
             return;
         }
 
-        // Enqueue CSS.
-        wp_enqueue_style( TSW_SHARE_INTENT_SLUG . '-admin-css', 
-            TSW_SHARE_INTENT_PLUGIN_URL . 'assets/css/admin.css', 
-            array(), TSW_SHARE_INTENT_VERSION );
-
-        // Enqueue JavaScript.
-        //wp_enqueue_script( TPC_SLUG . '-admin-js', TPC_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), TPC_VERSION, true );
-
-        // Pass data to the JavaScript file.
-        /* wp_localize_script( TPC_SLUG . '-admin-js', 'tpc_ajax_object', array(
-            'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'nonce'    => wp_create_nonce( 'tpc_admin_nonce' ),
-            'posttypes' => $this->posttypes,
-            'i18n'     => array(
-                'categorySaved' => esc_html__( 'Category saved!', 'tsw-plugin-categorizer' ),
-                'categoryRemoved' => esc_html__( 'Category removed!', 'tsw-plugin-categorizer' ),
-            ),
-        ) ); */
+        echo '<div style="margin-top: 10px; padding: 10px; background: #fff; border: 1px solid #ccd0d4; display: inline-block;">';
+        echo '<strong>' . esc_html__( 'Active on:', 'tradesw-share-intent' ) . '</strong> ';
+        
+        $names = array();
+        foreach ( (array) $selected_values as $type ) {
+            $obj = get_post_type_object( $type );
+            $names[] = $obj ? $obj->labels->singular_name : $type;
+        }
+        
+        echo esc_html( implode( ', ', $names ) );
+        echo '</div>';
     }
 
     /**
-     * Render the admin page template.
+     * Render the admin page template using your constant.
      */
     public function render_admin_page() {
+        // Using your corrected constant name
+        $template_path = TSW_SHARE_INTENT_PLUGIN_DIR . 'templates/admin-page.php';
         
-        // Build the list of uncategorized plugins.
-        /* foreach ( $all_plugins as $plugin_slug => $plugin_data ) {
-            if ( ! isset( $categorized_plugins[ $plugin_slug ] ) ) {
-                $uncategorized_plugins[ $plugin_slug ] = $plugin_data;
-            }
-        } */
-
-        // Get suggested posttypes for uncategorized plugins.
-       // $suggested_posttypes = Plugin::get_instance()->->get_suggested_posttypes( $uncategorized_plugins );
-
-        // Include the template.
-        include TSW_SHARE_INTENT_PLUGIN_DIR . 'templates/admin-page.php';
-    }
-
-    /**
-     * Add a drop down select of post types.
-     *
-     * @param array $columns The columns array.
-     * @return array The filtered columns array.
-     */
-    public function render_post_select( ) {
-       // Get post types
-        $args       = array(
-            'public'   => true,
-            '_builtin' => true,
-        );
-        $post_types = get_post_types( $args, 'objects' );
-        ?>
-        <select class="widefat" name="post_type">
-            <?php foreach ( $post_types as $post_type_obj ):
-                $labels = get_post_type_labels( $post_type_obj );
-                ?>
-                <option value="<?php echo esc_attr( $post_type_obj->name ); ?>">
-                    <?php echo esc_html( $labels->name ); ?></option>
-            <?php endforeach; ?>
-        </select>
-        <?php 
-    }
-
-    /**
-     * Display content for the post types.
-     */
-    public function posttypes() {
-        
-        $args = array(
-        'public'   => true,
-        '_builtin' => true
-        );
-        
-        $output = 'names'; // 'names' or 'objects' (default: 'names')
-        $operator = 'and'; // 'and' or 'or' (default: 'and')
-        
-        $post_types = get_post_types( $args, $output, $operator );
-        
-        if ( $post_types ) { // If there are any custom public post types.
-        
-            echo '<ul>';
-        
-            foreach ( $post_types  as $post_type ) {
-                echo '<li>' . $post_type . '</li>';
-            }
-        
-            echo '</ul>';
-        
+        if ( file_exists( $template_path ) ) {
+            include_once $template_path;
+        } else {
+            echo '<div class="error"><p>Template not found at: ' . esc_html( $template_path ) . '</p></div>';
         }
     }
-    /**
-     * AJAX handler to save a plugin's category.
-     */
-    
-}
+} 

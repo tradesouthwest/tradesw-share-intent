@@ -1,28 +1,35 @@
+<?php
+/**
+ * Template for Trades Share Intent Settings
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+?>
+
 <div class="wrap">
-    <h1><?php esc_html_e( 'Tradesw Share Intent Management', 'tradesw-share-intent' ); ?></h1>
-    <p><?php esc_html_e( 'Select your post types and management.', 'tradesw-share-intent' ); ?></p>
+    <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+    
+    <form method="post" action="options.php">
+        <?php settings_fields( 'tradesw_share_intent_group' ); ?>
 
-    <div id="tpc-message" class="notice notice-success" style="display: none;">
-        <p><?php esc_html_e( 'Success',  'tradesw-share-intent' ); ?></p>
-    </div>
+        <table class="form-table" role="presentation">
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <label for="tradesw_selected_posttype">
+                            <?php esc_html_e( 'Target Post Types', 'tradesw-share-intent' ); ?>
+                        </label>
+                    </th>
+                    <td>
+                        <?php $this->render_post_select(); ?>
+                        <br>
+                        <?php $this->render_active_post_types(); ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="tpc-container">
-        <!-- Section for Uncategorized Plugins -->
-        <div class="tpc-uncategorized-section">
-            <h2><?php esc_html_e( 'Using Post Types', 'tradesw-share-intent' ); ?></h2>
-            <div class="tpc-plugin-list">
-                post type list
-            </div>
-        </div>
-
-        <!-- Section for Categorized Plugins -->
-        <div class="tpc-categorized-section">
-            <h2><?php esc_html_e( 'Available Post Types', 'tradesw-share-intent' ); ?></h2>
-            <div class="tpc-categorized-list">
-                <?php $admin = new \Trades_Share_Intent\Admin\AdminInterface();
-                    $admin->render_post_select();
-                ?>
-            </div>
-        </div>
-    </div>
+        <?php submit_button( __( 'Save Intent Settings', 'tradesw-share-intent' ) ); ?>
+    </form>
 </div>
