@@ -27,7 +27,7 @@ class Plugin {
      *
      * @var UtilsManager
      */
-    public $utils_manager;
+    //public $utils_manager;
 
     /**
      * The admin interface handler.
@@ -61,8 +61,10 @@ class Plugin {
     private function __construct() {
         // Initialize core components.
         //$this->utils_manager     = new UtilsManager();
-        $this->public_interface = new FrontendInterface();
-        $this->admin_interface = new AdminInterface();
+        //$this->public_interface = new FrontendInterface();
+        //$this->admin_interface = new AdminInterface();
+        $this->public_interface = new \Trades_Share_Intent\Frontend\FrontendInterface();
+        $this->admin_interface  = new \Trades_Share_Intent\Admin\AdminInterface();
 
         // Register hooks.
         $this->register_hooks();
@@ -74,14 +76,12 @@ class Plugin {
     private function register_hooks() {
         // Hook for adding the admin menu page.
         add_action( 'admin_menu', array( $this->admin_interface, 'add_menu_page' ) );
-
+        //add_action( 'admin_init', array( $this->admin_interface, 'register_plugin_settings' ) );
+        //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
+        add_filter( 'the_content', array( $this->public_interface, 'inject_share_intent' ) );
         // Hook for enqueuing scripts and styles in the admin area.
         //add_action( 'admin_enqueue_scripts', array( $this->admin_interface, 'enqueue_assets' ) );
 
-        // Hooks for adding and displaying the custom category column on the plugins list page.
-      /*  add_filter( 'manage_plugins_columns', array( $this->admin_interface, 'add_plugin_category_column' ) );
-        add_action( 'manage_plugins_custom_column', array( $this->admin_interface, 'display_plugin_category_column' ), 10, 2 );
-*/
         // AJAX hooks for saving categories.
         //add_action( 'wp_ajax_tpc_save_category', array( $this->admin_interface, 'handle_save_category' ) );
         //add_action( 'wp_ajax_tpc_remove_category', array( $this->admin_interface, 'handle_remove_category' ) );
