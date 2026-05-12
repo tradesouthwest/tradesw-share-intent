@@ -1,0 +1,97 @@
+/*
+ * tp Plugin Categorizer Admin Styles
+ */
+
+/* General Layout and Container */
+.tpc-container {
+    display: flex;
+    gap: 20px;
+}
+
+.tpc-uncategorized-section,
+.tpc-categorized-section {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+/* Section Headings */
+.tpc-uncategorized-section h2,
+.tpc-categorized-section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #c3c4c7;
+    padding-bottom: 10px;
+}
+
+/* Plugin Items */
+.tpc-plugin-list,
+.tpc-categorized-list {
+    margin-top: 20px;
+}
+
+.tpc-plugin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    background-color: #f7f7f7;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.tpc-plugin-item .tpc-plugin-header h3 {
+    margin: 0 0 5px 0;
+    font-size: 1em;
+}
+
+.tpc-plugin-item .tpc-plugin-header p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Actions (Select and Button) */
+.tpc-plugin-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tpc-category-select {
+    min-width: 150px;
+}
+
+.tpc-save-button {
+    text-shadow: none;
+    box-shadow: none;
+}
+
+/* Categorized List */
+.tpc-categorized-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tpc-categorized-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.tpc-categorized-item:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .tpc-container {
+        flex-direction: column;
+    }
+}
+
