@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FrontendInterface {
 
     public function __construct() {
-        add_action( 'wp_head', array( $this->public_interface, 'add_meta_tags') );
+        add_action( 'wp_head', array( $this, 'add_meta_tags') );
         // 1. Logic Hook (The "When")
         //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
     }
@@ -27,26 +27,14 @@ class FrontendInterface {
             //$url   = esc_url(get_permalink($post->ID));
             $url = urlencode(get_permalink());
             $title = esc_attr(get_the_title($post->ID));
-            
+            $img_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
             // Essential OG tags for Facebook to identify the specific post
-            echo '<meta property="og:url" content="' . $url . '" />' . "\n";
+            echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
             echo '<meta property="og:type" content="article" />' . "\n";
-            echo '<meta property="og:title" content="' . $title . '" />' . "\n";
-
-            $img_data = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
-            
-            if ($img_data) {
-                $img_url    = esc_url($img_data[0]);
-                $img_width  = $img_data[1];
-                $img_height = $img_data[2];
-                
-                echo '<meta property="og:image" content="' . $img_url . '" />' . "\n";
-                echo '<meta property="og:image:width" content="' . $img_width . '" />' . "\n";
-                echo '<meta property="og:image:height" content="' . $img_height . '" />' . "\n";
-                
-                echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
-                echo '<meta name="twitter:image" content="' . $img_url . '" />' . "\n";
-            }
+            echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
+            echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />' . "\n";
+            echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+            echo '<meta name="twitter:image" content="' . esc_url( $img_url ) . '" />' . "\n";
         }
     }
 
