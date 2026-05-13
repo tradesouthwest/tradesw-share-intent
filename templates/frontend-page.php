@@ -14,7 +14,7 @@ $title = urlencode( $share_data['title'] );
 // Define the platforms in a loop for easier maintenance
 $platforms = array(
     'x' => array(
-        'label' => 'X (Twitter)',
+        'label' => 'X',
         'url'   => "https://twitter.com/intent/tweet?text={$title}&url={$url}",
     ),
     'facebook' => array(

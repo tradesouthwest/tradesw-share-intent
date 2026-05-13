@@ -61,8 +61,6 @@ class Plugin {
     private function __construct() {
         // Initialize core components.
         //$this->utils_manager     = new UtilsManager();
-        //$this->public_interface = new FrontendInterface();
-        //$this->admin_interface = new AdminInterface();
         $this->public_interface = new \Trades_Share_Intent\Frontend\FrontendInterface();
         $this->admin_interface  = new \Trades_Share_Intent\Admin\AdminInterface();
 
@@ -77,7 +75,8 @@ class Plugin {
         // Hook for adding the admin menu page.
         add_action( 'admin_menu', array( $this->admin_interface, 'add_menu_page' ) );
         //add_action( 'admin_init', array( $this->admin_interface, 'register_plugin_settings' ) );
-        //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
+        add_action( 'wp_head', array( $this->public_interface, 'frontend_styles') );
+        add_action( 'wp_head', array( $this->public_interface, 'add_meta_tags') );
         add_filter( 'the_content', array( $this->public_interface, 'inject_share_intent' ) );
         // Hook for enqueuing scripts and styles in the admin area.
         //add_action( 'admin_enqueue_scripts', array( $this->admin_interface, 'enqueue_assets' ) );
