@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $url   = urlencode( $share_data['url'] );
 $title = urlencode( $share_data['title'] );
+$tsi_text = "Socialize:";
 
 // Define the platforms in a loop for easier maintenance
 $platforms = array(
@@ -29,7 +30,8 @@ $platforms = array(
 ?>
 
 <div class="tradesw-share-intent-wrap">
-    <h4><?php esc_html_e( 'Share this:', 'tradesw-share-intent' ); ?></h4>
+    <h4><?php printf( esc_html__( '%s', 'tradesw-share-intent' ), 
+                !empty($tsi_text) ? esc_html($tsi_text) : 'Share' ); ?></h4>
     <ul class="tradesw-share-links">
         <?php foreach ( $platforms as $key => $platform ) : ?>
             <li class="share-<?php echo esc_attr( $key ); ?>">
