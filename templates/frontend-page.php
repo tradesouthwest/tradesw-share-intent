@@ -3,6 +3,7 @@
  * Template for the Frontend Share Intent buttons.
  * Available variable: $share_data
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
