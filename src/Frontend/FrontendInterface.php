@@ -45,8 +45,8 @@ class FrontendInterface {
     public function frontend_styles() {
         echo '<style id="tradesw-social-intent">
             .tradesw-share-intent-wrap { display: flex; gap: 15px; margin: 20px 0; padding: 10px; border-top: 1px solid #eee; align-items: center;  }
-            .tradesw-share-links { text-decoration: none; display: flex; align-items: center; transition: opacity 0.2s; }
-            .tradesw-share-links:hover { opacity: 0.7; }
+            .tradesw-share-links { list-style: none; text-decoration: none; display: flex; align-items: center; transition: opacity 0.2s; }
+            .tradesw-share-links li { margin-left: .5rem; } .tradesw-share-links:hover { opacity: 0.7; }
             .tradesw-share-links svg { width: 24px; height: 24px; fill: currentColor; }
             .icon-fb { color: #1877F2; } .icon-x { color: #000000; } .icon-li { color: #0A66C2; } .icon-th { color: #000000; } .icon-bs { color: #0085ff; }
         </style>';
