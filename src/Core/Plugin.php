@@ -76,14 +76,8 @@ class Plugin {
         add_action( 'admin_menu', array( $this->admin_interface, 'add_menu_page' ) );
         //add_action( 'admin_init', array( $this->admin_interface, 'register_plugin_settings' ) );
         add_action( 'wp_head', array( $this->public_interface, 'frontend_styles') );
-        add_action( 'wp_head', array( $this->public_interface, 'add_meta_tags') );
-        add_filter( 'the_content', array( $this->public_interface, 'inject_share_intent' ) );
-        // Hook for enqueuing scripts and styles in the admin area.
-        //add_action( 'admin_enqueue_scripts', array( $this->admin_interface, 'enqueue_assets' ) );
 
-        // AJAX hooks for saving categories.
-        //add_action( 'wp_ajax_tpc_save_category', array( $this->admin_interface, 'handle_save_category' ) );
-        //add_action( 'wp_ajax_tpc_remove_category', array( $this->admin_interface, 'handle_remove_category' ) );
+        add_filter( 'the_content', array( $this->public_interface, 'inject_share_intent' ) );
     }
 
     /**

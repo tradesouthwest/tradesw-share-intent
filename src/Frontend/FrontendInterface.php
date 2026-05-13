@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FrontendInterface {
 
     public function __construct() {
-        
+        add_action( 'wp_head', array( $this->public_interface, 'add_meta_tags') );
         // 1. Logic Hook (The "When")
         //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
     }
