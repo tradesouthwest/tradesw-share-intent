@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $url   = urlencode( $share_data['url'] );
 $title = urlencode( $share_data['title'] );
-$tsi_text = "Socialize:";
+$tsi_text = "Socialize:"; // can be an option
 
 // Define the platforms in a loop for easier maintenance
 $platforms = array(
