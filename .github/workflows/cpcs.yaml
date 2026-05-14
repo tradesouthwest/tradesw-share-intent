@@ -23,7 +23,7 @@ jobs:
           sed -i '/^\t<!-- start config -->.*/a\
             <file>.</file>
             ' phpcs.xml
-          sed -i '/MY_DOMAIN/ s//trades-share-intent/' phpcs.xml
+          sed -i '/MY_DOMAIN/ s//tradesw-share-intent/' phpcs.xml
           cp phpcs.xml phpcs.xml.dist
       - name: CPCS checks
         uses: 10up/wpcs-action@v1.7.0
