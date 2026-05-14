@@ -8,8 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AdminInterface {
 
     public function __construct() {
-        // Hooks for the Settings API
-        add_action( 'admin_init', array( $this, 'register_plugin_settings' ) );
+        // Register settings
+    add_action( 'admin_init', array( $this, 'register_plugin_settings' ) );
+    
+    // Actually add the menu to the sidebar
+    add_action( 'admin_menu', array( $this, 'add_menu_page' ) );
     }
 
     /**

@@ -39,7 +39,7 @@ $platforms = array(
 
 <div class="tradesw-share-intent-wrap">
     <h4><?php printf( esc_html__( '%s', 'tradesw-share-intent' ), 
-                !empty( $tsi_text ) ? esc_html($tsi_text) : esc_html('Share', 'tradesw-share-intent' ) 
+                !empty( $tsi_text ) ? esc_html($tsi_text) : esc_attr( 'Share', 'tradesw-share-intent' ) 
                 ); ?></h4>
     <ul class="tradesw-share-links">
         <?php foreach ( $platforms as $key => $platform ) : ?>
@@ -48,7 +48,7 @@ $platforms = array(
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="tsw-share-btn">
-                    <?php echo render_safe_svg( $platform['label'] ); ?>
+                    <?php echo $platform['label']; ?>
                 </a>
             </li>
         <?php endforeach; ?>

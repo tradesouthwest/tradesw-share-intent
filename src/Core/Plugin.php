@@ -3,7 +3,6 @@ namespace Tradesw_Share_Intent\Core;
 
 use Tradesw_Share_Intent\Admin\AdminInterface;
 use Tradesw_Share_Intent\Frontend\FrontendInterface;
-//use Tradesw_Share_Intent\Utils\PluginUtils;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,11 +36,11 @@ class Plugin {
     public $admin_interface;
 
     /**
-     * The plugin analyzer.
+     * The plugin frontend.
      *
-     * @var PublicInterface
+     * @var FrontendInterface
      */
-    public $public_interface;
+    public $frontend_interface;
 
     /**
      * Get the singleton instance of the plugin.
@@ -60,8 +59,7 @@ class Plugin {
      */
     private function __construct() {
         // Initialize core components.
-        //$this->utils_manager     = new UtilsManager();
-        $this->public_interface = new \Tradesw_Share_Intent\Frontend\FrontendInterface();
+        $this->frontend_interface = new \Tradesw_Share_Intent\Frontend\FrontendInterface();
         $this->admin_interface  = new \Tradesw_Share_Intent\Admin\AdminInterface();
 
         // Register hooks.
@@ -72,12 +70,10 @@ class Plugin {
      * Register WordPress hooks.
      */
     private function register_hooks() {
-        // Hook for adding the admin menu page.
-        add_action( 'admin_menu', array( $this->admin_interface, 'add_menu_page' ) );
         //add_action( 'admin_init', array( $this->admin_interface, 'register_plugin_settings' ) );
-        add_action( 'wp_head', array( $this->public_interface, 'frontend_styles') );
+        add_action( 'wp_head', array( $this->frontend_interface, 'frontend_styles') );
 
-        add_filter( 'the_content', array( $this->public_interface, 'inject_share_intent' ) );
+        add_filter( 'the_content', array( $this->frontend_interface, 'inject_share_intent' ) );
     }
 
     /**

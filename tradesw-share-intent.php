@@ -22,6 +22,7 @@ define( 'TSW_SHARE_INTENT_VERSION', '1.0' );
 // This gets the absolute path to the main plugin directory.
 define( 'TSW_SHARE_INTENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TSW_SHARE_INTENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'TSW_SHARE_INTENT_SLUG', 'tradesw-share-intent' );
 
 //load language scripts first
 function tradesw_share_intent_load_text_domain() 
@@ -29,29 +30,29 @@ function tradesw_share_intent_load_text_domain()
     load_plugin_textdomain( 'tradesw-share-intent', false, 
                             basename( dirname( __FILE__ ) ) . '/languages' ); 
 }
-add_action( 'init', 'tradesw_share_intent_load_textdomain' );
+// Fixed the function name here to match the definition above
+add_action( 'init', 'tradesw_share_intent_load_text_domain' );
 
 /**
- * Autoload classes using the namespace and file structure.
- * This function is automatically called by PHP when a class is not found.
+ * PHP 8.0 support for autoloader
+ * 
+ * @since 1.0
  */
-spl_autoload_register( 'tradesw_share_intent_autoloader' );
-
-function tradesw_share_intent_autoloader( $class ) {
-    // Check if the class is within our defined namespace.
+function tradesw_share_intent_eight_autoloader( $class ) {
+    // We still check for the namespace prefix because your CLASS FILES likely use them
     if ( strpos( $class, 'Tradesw_Share_Intent\\' ) === 0 ) {
-        // Remove the namespace prefix from the class name.
-        $relative_class = str_replace( 'Trades_Share_Intent\\', '', $class );
-
-        // Convert the namespace structure to a file path.
-        // For example, TPC\Core\Plugin becomes Core/Plugin.
+        $relative_class = str_replace( 'Tradesw_Share_Intent\\', '', $class );
         $file = TSW_SHARE_INTENT_PLUGIN_DIR . 'src/' . str_replace( '\\', '/', $relative_class ) . '.php';
 
-        // Check if the file exists before including it.
         if ( file_exists( $file ) ) {
             require_once $file;
         }
     }
+}
+
+if ( function_exists( 'spl_autoload_register' ) ) {
+    // This will now work because the function is in the global scope
+    spl_autoload_register( 'tradesw_share_intent_eight_autoloader' ); 
 }
 
 /**
@@ -60,7 +61,8 @@ function tradesw_share_intent_autoloader( $class ) {
  * @return \\Core\Plugin
  */
 function Tradesw_Share_Intent() {
-    return \Trades_Share_Intent\Core\Plugin::get_instance();
+    // Use the fully qualified name to find your class in the /src folder
+    return \Tradesw_Share_Intent\Core\Plugin::get_instance();
 }
 
 // Initialize the plugin. This is where the singleton is first created.
@@ -70,5 +72,5 @@ Tradesw_Share_Intent();
  * Register activation and deactivation hooks.
  * The static methods are defined in the main Plugin class.
  */
-register_activation_hook( __FILE__, array( 'Trades_Share_Intent\Core\Plugin', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'Trades_Share_Intent\Core\Plugin', 'deactivate' ) ); 
+register_activation_hook( __FILE__, array( '\Tradesw_Share_Intent\Core\Plugin', 'activate' ) );
+register_deactivation_hook( __FILE__, array( '\Tradesw_Share_Intent\Core\Plugin', 'deactivate' ) ); 
