@@ -5,7 +5,7 @@ Adds social share buttons to bottom of posts with selectable post types.
 
 - Requires PHP: 7.4
 - Requires CP:  1.4
-- Version:      1.0.1
+- Version:      1.0
 - Author:       Tradesouthwest
 - Tags:         share, social, intent
 - License:      GPL 3 (see LICENSE)
