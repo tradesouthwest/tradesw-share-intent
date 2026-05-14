@@ -18,6 +18,20 @@ class FrontendInterface {
     }
     
     /**
+     * Helper function using wp_kses() to allow only safe SVG elements and attributes.
+     * @return string
+     * @since 1.0
+     */
+    public function render_safe_svg( $svg_content ) {
+        $allowed_tags = [
+            'svg'  => [ 'viewbox' => [], 'xmlns' => [], 'class' => [], 'width' => [], 'height' => [] ],
+            'path' => [ 'd' => [], 'fill' => [], 'stroke' => [], 'stroke-width' => [] ],
+            // Add other elements as necessary, such as g, circle, rect
+        ];
+        return wp_kses( $svg_content, $allowed_tags );  
+    }
+
+    /**
      * Adds Open Graph and Twitter metadata tags to the document head.
      * * Specifically targets single post views to ensure social platforms 
      * scrape the correct title, URL, and featured image.
@@ -28,7 +42,7 @@ class FrontendInterface {
         if (is_single()) {
             global $post;
 
-            $url     = urlencode( get_permalink( $post->ID ) );
+            $url     = rawurlencode( get_permalink( $post->ID ) );
             $title   = esc_html( get_the_title( $post->ID ) );
             $img_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
             // Essential OG tags for Facebook to identify the specific post
@@ -92,12 +106,9 @@ class FrontendInterface {
      * @return void
      */
     public function render_frontend_page() {
-        //$template_path = dirname( __DIR__, 2 ) . '../../templates/frontend-page.php';
+        // Path to template.
         $template_path = TSW_SHARE_INTENT_PLUGIN_DIR . 'templates/frontend-page.php';
     // DEBUG: This will show you the exact path PHP is trying to use
-    /*if ( current_user_can( 'manage_options' ) ) {
-        echo 'permissions not granted';
-    }*/
 
         if ( file_exists( $template_path ) ) {
             // Define the array that your template is looking for

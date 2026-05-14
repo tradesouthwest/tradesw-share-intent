@@ -39,3 +39,14 @@ This plugin is hard coded with most modern used metadata. We do this to save mes
 ### Upgrade Notice
 
 If you find your theme has (duplicate) metadata tags in the head, be sure to comment out the ones you do not need in the file `src/Frontend/FrontendInterface.php` around line 35.
+
+And if your theme does not support svgs (which is rare now days):
+
+```
+function tradesw_share_intent_add_mime_types($mimes) {
+ $mimes['svg'] = 'image/svg+xml';
+ return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');
+```
+https://blog.cogitactive.com/website/enabling-wordpress-svg-safely/ 

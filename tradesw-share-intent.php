@@ -35,7 +35,7 @@ function onlist_load_text_domain()
  * Autoload classes using the namespace and file structure.
  * This function is automatically called by PHP when a class is not found.
  */
-spl_autoload_register( 'trades_share_intent_autoloader' );
+spl_autoload_register( 'tradesw_share_intent_autoloader' );
 
 function trades_share_intent_autoloader( $class ) {
     // Check if the class is within our defined namespace.
