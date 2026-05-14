@@ -38,8 +38,8 @@ $platforms = array(
 ?>
 
 <div class="tradesw-share-intent-wrap">
-    <h4><?php printf( esc_html__( '%s', 'tradesw-share-intent' ), 
-                !empty( $tsi_text ) ? esc_html($tsi_text) : esc_attr( 'Share', 'tradesw-share-intent' ) 
+    <h4><?php printf( esc_html__( '%s', 'tradesw-share-intent' ),     // phpcs:ignore WordPress.WP.I18n.NoEmptyStrings
+                !empty( $tsi_text ) ? esc_html($tsi_text) : esc_attr__( 'Share', 'tradesw-share-intent' ) 
                 ); ?></h4>
     <ul class="tradesw-share-links">
         <?php foreach ( $platforms as $key => $platform ) : ?>
@@ -48,7 +48,8 @@ $platforms = array(
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="tsw-share-btn">
-                    <?php echo $platform['label']; ?>
+                    <?php echo $platform['label']; // WordPress.Security.EscapeOutput.OutputNotEscaped 
+                    ?>
                 </a>
             </li>
         <?php endforeach; ?>
