@@ -18,11 +18,18 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Define plugin constants.
-define( 'TSW_SHARE_INTENT_VERSION', '1.0.0' );
+define( 'TSW_SHARE_INTENT_VERSION', '1.0' );
 // This gets the absolute path to the main plugin directory.
 define( 'TSW_SHARE_INTENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TSW_SHARE_INTENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'TSW_SHARE_INTENT_SLUG', 'tradesw-share-intent' );
+
+//load language scripts     
+function onlist_load_text_domain() 
+{
+    load_plugin_textdomain( 'trades-share-intent', false, 
+                            basename( dirname( __FILE__ ) ) . '/languages' ); 
+}
 
 /**
  * Autoload classes using the namespace and file structure.
