@@ -1,9 +1,9 @@
 <?php
-namespace Trades_Share_Intent\Core;
+namespace Tradesw_Share_Intent\Core;
 
-use Trades_Share_Intent\Admin\AdminInterface;
-use Trades_Share_Intent\Frontend\FrontendInterface;
-//use Trades_Share_Intent\Utils\PluginUtils;
+use Tradesw_Share_Intent\Admin\AdminInterface;
+use Tradesw_Share_Intent\Frontend\FrontendInterface;
+//use Tradesw_Share_Intent\Utils\PluginUtils;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -61,8 +61,8 @@ class Plugin {
     private function __construct() {
         // Initialize core components.
         //$this->utils_manager     = new UtilsManager();
-        $this->public_interface = new \Trades_Share_Intent\Frontend\FrontendInterface();
-        $this->admin_interface  = new \Trades_Share_Intent\Admin\AdminInterface();
+        $this->public_interface = new \Tradesw_Share_Intent\Frontend\FrontendInterface();
+        $this->admin_interface  = new \Tradesw_Share_Intent\Admin\AdminInterface();
 
         // Register hooks.
         $this->register_hooks();

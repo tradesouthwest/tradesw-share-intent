@@ -1,5 +1,5 @@
 <?php
-namespace Trades_Share_Intent\Admin;
+namespace Tradesw_Share_Intent\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -39,8 +39,8 @@ class AdminInterface {
      */
     public function add_menu_page() {
         add_management_page(
-            esc_html__( 'Trades Share Intent', 'tradesw-share-intent' ),
-            esc_html__( 'Trades Share Intent', 'tradesw-share-intent' ),
+            esc_html__( 'Tradesw Share Intent', 'tradesw-share-intent' ),
+            esc_html__( 'Tradesw Share Intent', 'tradesw-share-intent' ),
             'manage_options',
             TSW_SHARE_INTENT_SLUG,
             array( $this, 'render_admin_page' )

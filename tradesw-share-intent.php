@@ -37,9 +37,9 @@ add_action( 'init', 'tradesw_share_intent_load_textdomain' );
  */
 spl_autoload_register( 'tradesw_share_intent_autoloader' );
 
-function trades_share_intent_autoloader( $class ) {
+function tradesw_share_intent_autoloader( $class ) {
     // Check if the class is within our defined namespace.
-    if ( strpos( $class, 'Trades_Share_Intent\\' ) === 0 ) {
+    if ( strpos( $class, 'Tradesw_Share_Intent\\' ) === 0 ) {
         // Remove the namespace prefix from the class name.
         $relative_class = str_replace( 'Trades_Share_Intent\\', '', $class );
 
@@ -59,12 +59,12 @@ function trades_share_intent_autoloader( $class ) {
  * We use a function instead of a direct class call to make it more accessible.
  * @return \\Core\Plugin
  */
-function Trades_Share_Intent() {
+function Tradesw_Share_Intent() {
     return \Trades_Share_Intent\Core\Plugin::get_instance();
 }
 
 // Initialize the plugin. This is where the singleton is first created.
-Trades_Share_Intent();
+Tradesw_Share_Intent();
 
 /**
  * Register activation and deactivation hooks.

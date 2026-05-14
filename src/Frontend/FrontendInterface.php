@@ -1,5 +1,5 @@
 <?php
-namespace Trades_Share_Intent\Frontend;
+namespace Tradesw_Share_Intent\Frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -46,7 +46,7 @@ class FrontendInterface {
             $title   = esc_html( get_the_title( $post->ID ) );
             $img_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
             // Essential OG tags for Facebook to identify the specific post
-            echo '<meta name="generator" content="TradesShareIntent v1.0" />' . "\n";
+            echo '<meta name="generator" content="TradeswShareIntent v1.0" />' . "\n";
             echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
             echo '<meta property="og:type" content="article" />' . "\n";
             // ToDo Add description tag. Use Excerpt maybe.

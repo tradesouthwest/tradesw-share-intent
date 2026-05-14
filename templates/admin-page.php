@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for Trades Share Intent Settings
+ * Template for Tradesw Share Intent Settings
  */
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
