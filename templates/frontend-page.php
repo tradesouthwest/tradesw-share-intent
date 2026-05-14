@@ -48,7 +48,7 @@ $platforms = array(
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="tsw-share-btn">
-                    <?php echo $platform['label']; // WordPress.Security.EscapeOutput.OutputNotEscaped 
+                    <?php print( $platform['label'] ); // WordPress.Security.EscapeOutput.OutputNotEscaped 
                     ?>
                 </a>
             </li>
