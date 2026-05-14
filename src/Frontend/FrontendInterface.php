@@ -16,20 +16,6 @@ class FrontendInterface {
     public function __construct() {
         add_action( 'wp_head', array( $this, 'add_meta_tags') );
     }
-    
-    /**
-     * Helper function using wp_kses() to allow only safe SVG elements and attributes.
-     * @return string
-     * @since 1.0
-     */
-    public function render_safe_svg( $svg_content ) {
-        $allowed_tags = [
-            'svg'  => [ 'viewbox' => [], 'xmlns' => [], 'class' => [], 'width' => [], 'height' => [] ],
-            'path' => [ 'd' => [], 'fill' => [], 'stroke' => [], 'stroke-width' => [] ],
-            // Add other elements as necessary, such as g, circle, rect
-        ];
-        return wp_kses( $svg_content, $allowed_tags );  
-    }
 
     /**
      * Adds Open Graph and Twitter metadata tags to the document head.

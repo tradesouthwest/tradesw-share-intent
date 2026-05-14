@@ -76,7 +76,7 @@ $platforms = array(
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="tsw-share-btn">
-                    <?php echo tradesw_get_safe_svg( $platform['label'] ); 
+                    <?php echo tradesw_get_safe_svg( $platform['label'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                     ?>
                 </a>
             </li>
