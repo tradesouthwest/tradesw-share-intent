@@ -22,7 +22,6 @@ define( 'TSW_SHARE_INTENT_VERSION', '1.0' );
 // This gets the absolute path to the main plugin directory.
 define( 'TSW_SHARE_INTENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TSW_SHARE_INTENT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'TSW_SHARE_INTENT_SLUG', 'tradesw-share-intent' );
 
 //load language scripts first
 function tradesw_share_intent_load_text_domain() 
