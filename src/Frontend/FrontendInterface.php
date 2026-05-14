@@ -7,40 +7,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class FrontendInterface {
 
+    /**
+     * Constructor.
+     * * Initialized hooks for metadata injection into the site head.
+     *
+     * @since 1.0.0
+     */
     public function __construct() {
         add_action( 'wp_head', array( $this, 'add_meta_tags') );
-        // 1. Logic Hook (The "When")
-        //add_filter( 'the_content', array( $this, 'inject_share_intent' ) );
     }
     
     /**
-    * Meta tags
-    * fb shows only home page.
-    * x posts twice but format OK.
-    * @ OK.
-    * Bs OK.
-    * In OK.
-    */
+     * Adds Open Graph and Twitter metadata tags to the document head.
+     * * Specifically targets single post views to ensure social platforms 
+     * scrape the correct title, URL, and featured image.
+     * * @since 1.0.0
+     * @return void
+     */
     public function add_meta_tags() {
         if (is_single()) {
             global $post;
-            //$url   = esc_url(get_permalink($post->ID));
-            $url = urlencode(get_permalink());
-            $title = esc_attr(get_the_title($post->ID));
+
+            $url     = urlencode( get_permalink( $post->ID ) );
+            $title   = esc_html( get_the_title( $post->ID ) );
             $img_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
             // Essential OG tags for Facebook to identify the specific post
+            echo '<meta name="generator" content="TradesShareIntent v1.0" />' . "\n";
             echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
             echo '<meta property="og:type" content="article" />' . "\n";
+            // ToDo Add description tag. Use Excerpt maybe.
             echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
-            echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />' . "\n";
+            echo '<meta property="og:image" content="' . esc_url( $img_url ) . '" />' . "\n";
+            echo '<meta name="twitter:title" content="' . esc_html( $title ) . '" />' . "\n";
             echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
             echo '<meta name="twitter:image" content="' . esc_url( $img_url ) . '" />' . "\n";
         }
     }
 
-
     /**
-     * Add styles to head
+     * Outputs internal CSS styles for the share intent interface.
+     * * Hooks into the head to provide layout and coloring for social icons.
+     * * @since 1.0.0
+     * @return void
      */
     public function frontend_styles() {
         echo '<style id="tradesw-social-intent">
@@ -53,7 +61,11 @@ class FrontendInterface {
     }
     
     /**
-     * inject share intent
+     * Injects the share intent HTML into the post content.
+     * * Filters the content to append the rendered share buttons on allowed post types.
+     * * @since 1.0.0
+     * @param string $content The original post content.
+     * @return string The modified content with share intent HTML appended.
      */
     public function inject_share_intent( $content ) {
         $enabled_types = get_option( 'tradesw_selected_posttype', array( 'post' ) );
@@ -73,7 +85,11 @@ class FrontendInterface {
         }
 
     /**
-     * render_frontend_page
+     * Renders the social share template file.
+     * * Locates the template file, prepares the data array, and includes the file
+     * to be captured by the output buffer.
+     * * @since 1.0.0
+     * @return void
      */
     public function render_frontend_page() {
         //$template_path = dirname( __DIR__, 2 ) . '../../templates/frontend-page.php';
