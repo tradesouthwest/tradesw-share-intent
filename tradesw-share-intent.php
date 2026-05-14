@@ -27,7 +27,7 @@ define( 'TSW_SHARE_INTENT_SLUG', 'tradesw-share-intent' );
 //load language scripts     
 function onlist_load_text_domain() 
 {
-    load_plugin_textdomain( 'trades-share-intent', false, 
+    load_plugin_textdomain( 'tradesw-share-intent', false, 
                             basename( dirname( __FILE__ ) ) . '/languages' ); 
 }
 
