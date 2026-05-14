@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $url   = urlencode( $share_data['url'] );
 $title = urlencode( $share_data['title'] );
-$tsi_text = esc_html( 'Socialize:', 'trades-share-intent' ); // can be an option
+$tsi_text = esc_html__( 'Socialize:', 'trades-share-intent' ); // can be an option
 
 // Define the platforms in a loop for easier maintenance
 $platforms = array(
