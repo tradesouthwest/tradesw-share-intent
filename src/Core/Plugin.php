@@ -71,8 +71,6 @@ class Plugin {
      */
     private function register_hooks() {
         //add_action( 'admin_init', array( $this->admin_interface, 'register_plugin_settings' ) );
-        add_action( 'wp_head', array( $this->frontend_interface, 'frontend_styles') );
-
         add_filter( 'the_content', array( $this->frontend_interface, 'inject_share_intent' ) );
     }
 

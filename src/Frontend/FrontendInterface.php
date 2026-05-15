@@ -15,6 +15,7 @@ class FrontendInterface {
      */
     public function __construct() {
         add_action( 'wp_head', array( $this, 'add_meta_tags') );
+            add_action( 'wp_head', array( $this, 'frontend_instyles') );
     }
 
     /**
@@ -50,13 +51,13 @@ class FrontendInterface {
      * * @since 1.0.0
      * @return void
      */
-    public function frontend_styles() {
+    public function frontend_instyles() {
         echo '<style id="tradesw-social-intent">
             .tradesw-share-intent-wrap { display: flex; gap: 15px; margin: 20px 0; padding: 10px; border-top: 1px solid #eee; align-items: center;  }
             .tradesw-share-links { list-style: none; text-decoration: none; display: flex; align-items: center; transition: opacity 0.2s; }
             .tradesw-share-links li { margin-left: .5rem; } .tradesw-share-links:hover { opacity: 0.7; }
-            .tradesw-share-links svg { width: 24px; height: 24px; fill: currentColor; }
-            .icon-fb { color: #1877F2; } .icon-x { color: #000000; } .icon-li { color: #0A66C2; } .icon-th { color: #000000; } .icon-bs { color: #0085ff; }
+            .tradesw-share-links svg { display: flex; position: relative; overflow: visible !important; width: 30px; height: 30px; }
+            .share-linkedin svg { fill: #0A66C2; }.share-bluesky svg{ fill: #1185fe; } .icon-fb { color: #1877F2; } .icon-x { color: #000000; } .icon-li { color: #0A66C2; } .icon-th { color: #000000; } .icon-bs { color: #0085ff; }
         </style>';
     }
     
