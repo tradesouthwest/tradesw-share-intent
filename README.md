@@ -1,9 +1,9 @@
-![Plugin banner](assets/banner-1544x500.png)
+![Plugin banner](assets/banner-1544x500-tswshare.png)
 
 # Trades Share Intent
 Adds social share buttons to bottom of posts with selectable post types.
 
-- Requires PHP: 7.4
+- Requires PHP: 8.0
 - Requires CP:  1.4
 - Version:      1.0
 - Author:       Tradesouthwest
@@ -50,32 +50,3 @@ function tradesw_share_intent_add_mime_types($mimes) {
 add_filter('upload_mimes', 'cc_mime_types');
 ```
 https://blog.cogitactive.com/website/enabling-wordpress-svg-safely/ 
-
-
-function tradesw_share_intent_eight_autoloader( $class ) {
-    // Check if the class is within our defined namespace.
-    if ( strpos( $class, 'Tradesw_Share_Intent\\' ) === 0 ) {
-        // Remove the namespace prefix from the class name.
-        $relative_class = str_replace( 'Tradesw_Share_Intent\\', '', $class );
-
-        // Convert the namespace structure to a file path.
-        // For example, TPC\Core\Plugin becomes Core/Plugin.
-        $file = TSW_SHARE_INTENT_PLUGIN_DIR . 'src/' . str_replace( '\\', '/', $relative_class ) . '.php';
-
-        // Check if the file exists before including it.
-        if ( file_exists( $file ) ) {
-            require_once $file;
-        }
-    }
-}
-
-/**
- * Autoload classes using the namespace and file structure.
- * This function is automatically called by PHP when a class is not found.
- */
-if ( function_exists( 'spl_autoload_register' ) ) {
-    spl_autoload_register( 'tradesw_share_intent_eight_autoloader' ); 
-    }
-    else { 
-        spl_autoload_register(null); 
-}
