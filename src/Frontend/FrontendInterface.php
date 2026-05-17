@@ -18,6 +18,20 @@ class FrontendInterface {
             add_action( 'wp_head', array( $this, 'frontend_instyles') );
     }
 
+    public function getFirst45Words($content) {
+        // Split the content into an array of words
+        $words = explode(' ', $content);
+        
+        // Slice the first 45 words and join them back
+        $excerpt = implode(' ', array_slice($words, 0, 45));
+        
+        // Add ellipsis if the original content is longer than 45 words
+        if (count($words) > 45) {
+            $excerpt .= '...'; 
+        }
+        
+        return wp_kses_post( normalize_whitespace( wp_strip_all_tags( $excerpt, true ) ));
+    }
     /**
      * Adds Open Graph and Twitter metadata tags to the document head.
      * * Specifically targets single post views to ensure social platforms 
@@ -29,14 +43,16 @@ class FrontendInterface {
         if (is_single()) {
             global $post;
 
+            $content = get_post_field( 'post_content', $post->ID );
+            $excerp  = $this->getFirst45Words( $content );
             $url     = rawurlencode( get_permalink( $post->ID ) );
             $title   = esc_html( get_the_title( $post->ID ) );
             $img_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
             // Essential OG tags for Facebook to identify the specific post
             echo '<meta name="generator" content="TradeswShareIntent v1.0" />' . "\n";
             echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
+            echo '<meta property="og:description" content="' . esc_html( $excerp ) .'" />' . "\n";
             echo '<meta property="og:type" content="article" />' . "\n";
-            // ToDo Add description tag. Use Excerpt maybe.
             echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
             echo '<meta property="og:image" content="' . esc_url( $img_url ) . '" />' . "\n";
             echo '<meta name="twitter:title" content="' . esc_html( $title ) . '" />' . "\n";
@@ -48,6 +64,7 @@ class FrontendInterface {
     /**
      * Outputs internal CSS styles for the share intent interface.
      * * Hooks into the head to provide layout and coloring for social icons.
+     * Line 62 strips for themes that use an external link icon.
      * * @since 1.0.0
      * @return void
      */
@@ -58,37 +75,10 @@ class FrontendInterface {
             .tradesw-share-links li { margin-left: .5rem; } .tradesw-share-links:hover { opacity: 0.7; }
             .tradesw-share-links svg { display: flex; position: relative; overflow: visible !important; width: 30px; height: 30px; }
             .share-linkedin svg { fill: #0A66C2; }.share-bluesky svg{ fill: #1185fe; } .icon-fb { color: #1877F2; } .icon-x { color: #000000; } .icon-li { color: #0A66C2; } .icon-th { color: #000000; } .icon-bs { color: #0085ff; }
+            article .tradesw-share-intent-wrap a[target="_blank"]::after {content:"";display:none;}
         </style>';
     }
     
-    /**
-     * Helper function using wp_kses() to allow only safe SVG elements and attributes.
-     * @return string
-     * @since 1.0
-     */
-    public function tradesw_get_safe_svg( $svg ) {
-    $allowed_tags = array(
-        'svg' => array(
-            'class'           => true,
-            'aria-hidden'     => true,
-            'aria-labelledby' => true,
-            'role'            => true,
-            'viewbox'         => true,
-            'xmlns'           => true,
-            'width'           => true,
-            'height'          => true,
-            'fill'            => true,
-        ),
-        'path' => array(
-            'd'    => true,
-            'fill' => true,
-        ),
-        // Add other elements like 'circle', 'rect', 'g' as needed
-    );
-
-    return wp_kses( $svg, $allowed_tags );
-    }
-
     /**
      * Injects the share intent HTML into the post content.
      * * Filters the content to append the rendered share buttons on allowed post types.
@@ -123,8 +113,8 @@ class FrontendInterface {
     public function render_frontend_page() {
         // Path to template.
         $template_path = TSW_SHARE_INTENT_PLUGIN_DIR . 'templates/frontend-page.php';
-    // DEBUG: This will show you the exact path PHP is trying to use
-
+    
+        // DEBUG: This will show you the exact path PHP is trying to use
         if ( file_exists( $template_path ) ) {
             // Define the array that your template is looking for
             $share_data = array(
@@ -138,5 +128,4 @@ class FrontendInterface {
             echo "no template found";
         }
     }
-
 }
