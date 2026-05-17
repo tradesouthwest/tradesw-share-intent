@@ -62,6 +62,34 @@ class FrontendInterface {
     }
     
     /**
+     * Helper function using wp_kses() to allow only safe SVG elements and attributes.
+     * @return string
+     * @since 1.0
+     */
+    public function tradesw_get_safe_svg( $svg ) {
+    $allowed_tags = array(
+        'svg' => array(
+            'class'           => true,
+            'aria-hidden'     => true,
+            'aria-labelledby' => true,
+            'role'            => true,
+            'viewbox'         => true,
+            'xmlns'           => true,
+            'width'           => true,
+            'height'          => true,
+            'fill'            => true,
+        ),
+        'path' => array(
+            'd'    => true,
+            'fill' => true,
+        ),
+        // Add other elements like 'circle', 'rect', 'g' as needed
+    );
+
+    return wp_kses( $svg, $allowed_tags );
+    }
+
+    /**
      * Injects the share intent HTML into the post content.
      * * Filters the content to append the rendered share buttons on allowed post types.
      * * @since 1.0.0
@@ -110,4 +138,5 @@ class FrontendInterface {
             echo "no template found";
         }
     }
+
 }

@@ -8,34 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-/**
- * Helper function using wp_kses() to allow only safe SVG elements and attributes.
- * @return string
- * @since 1.0
- */
-function tradesw_get_safe_svg( $svg ) {
-$allowed_tags = array(
-    'svg' => array(
-        'class'           => true,
-        'aria-hidden'     => true,
-        'aria-labelledby' => true,
-        'role'            => true,
-        'viewbox'         => true,
-        'xmlns'           => true,
-        'width'           => true,
-        'height'          => true,
-        'fill'            => true,
-    ),
-    'path' => array(
-        'd'    => true,
-        'fill' => true,
-    ),
-    // Add other elements like 'circle', 'rect', 'g' as needed
-);
-
-return wp_kses( $svg, $allowed_tags );
-}
-
 $url      = rawurlencode( $share_data['url'] );
 $titles   = rawurlencode( $share_data['title'] );
 $tsi_text = esc_html__( 'Socialize:', 'tradesw-share-intent' ); // can be an option
